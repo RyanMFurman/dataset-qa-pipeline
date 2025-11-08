@@ -1,0 +1,21 @@
+{
+  "Body": {
+    "detections": [
+      {
+        "x0": 20,
+        "y0": 30,
+        "x1": 160,
+        "y1": 150,
+        "className": "CLOSED_DOOR",
+        "detectionType": "classical"
+      },
+      {
+        "x0": 220,
+        "y0": 60,
+        "x1": 360,
+        "y1": 180,
+        "detectionType": "locomotive_id"
+      }
+    ]
+  }
+}

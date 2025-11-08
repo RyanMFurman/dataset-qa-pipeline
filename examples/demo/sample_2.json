@@ -1,0 +1,14 @@
+{
+  "Body": {
+    "detections": [
+      {
+        "x0": 80,
+        "y0": 40,
+        "x1": 200,
+        "y1": 140,
+        "className": "OPEN_DOOR",
+        "detectionType": "classical"
+      }
+    ]
+  }
+}

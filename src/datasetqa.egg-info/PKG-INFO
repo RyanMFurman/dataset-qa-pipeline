@@ -1,0 +1,142 @@
+Metadata-Version: 2.4
+Name: datasetqa
+Version: 0.1.0
+Summary: Dataset QA & Export Pipeline: visual review and CSV export for image+JSON detection datasets.
+Author: Ryan Furman
+License: MIT
+Project-URL: Homepage, https://example.com
+Project-URL: Repository, https://example.com
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: opencv-python>=4.8
+Requires-Dist: matplotlib>=3.7
+Dynamic: license-file
+
+# Dataset QA & Export Pipeline
+
+A neutral, open-source toolkit to **inspect/QA image detections** and **export annotations to CSV** for downstream analytics and model training.
+
+- `datasetqa-review` — interactive visual review of detections from `image + JSON` pairs; adds computed fields and human label decisions.
+- `datasetqa-export` — filters detections and writes a tidy CSV.
+
+> Generic naming; no domain/company words. Example data included so you can run end-to-end in minutes.
+
+## Quickstart
+
+```bash
+pip install -e .
+# Interactive review on the demo set (choose Track 1/2/3, Exclude, or Save and Quit)
+datasetqa-review --image-dir ./examples/demo --type BB --overwrite
+
+# Export reviewed detections to CSV
+datasetqa-export --image-dir ./examples/demo --type BB --out detections.csv
+```
+
+### Label keys
+- `BB` → broken_bone  
+- `NB` → non_broken  
+- `LI` → locomotive_id  
+
+## JSON schema (expected)
+
+Each `.jpg` has a matching `.json` with:
+```json
+{
+  "Body": {
+    "detections": [
+      {
+        "x0": 10, "y0": 20, "x1": 100, "y1": 120,
+        "className": "CLOSED_DOOR",
+        "detectionType": "locomotive_id"
+      }
+    ]
+  }
+}
+```
+
+**During review**, the tool adds:
+- `detectionBoxId` (int)
+- `detectionBoxArea` (int)
+- `detectionBoxDiagonal` (float)
+- `trackNumber` (1, 2, 3, -1=excluded, -2=save+quit control value)
+
+## Where to get test images
+
+- **Included demo** (`examples/demo`) lets you run immediately.
+- Public sample data options (download a few images and craft JSON in the above shape):
+  - **COCO 2017 validation images** (common CV benchmark)
+  - **Roboflow Universe** sample projects (export a few images + boxes, convert to the JSON fields above)
+  - **Your own photos** — create minimal JSON files with a couple of boxes to test the flow.
+
+> Tip: you only need a handful of images to try the UI.
+
+## Roadmap ideas
+- COCO/YOLO export adapters
+- Streamlit-based review UI
+- Headless rules for auto-assigning trackNumber
+- Basic metrics: class balance, box-size distribution, missing-field checks
+
+### Create JSON for your own images
+
+```bash
+datasetqa-makejson --image-dir ./data/broken_bone
+datasetqa-makejson --image-dir ./data/non_broken
+```
+
+
+## Extra demo: synthetic bone X-rays
+Run the review on included synthetic examples:
+```bash
+datasetqa-review --image-dir ./examples/bones/broken_bone --type BB --overwrite
+datasetqa-review --image-dir ./examples/bones/non_broken --type NB --overwrite
+datasetqa-export --image-dir ./examples/bones/broken_bone --type BB --out bones_bb.csv
+datasetqa-export --image-dir ./examples/bones/non_broken --type NB --out bones_nb.csv
+```
+
+
+## Fetch real X-rays (FracAtlas, via Hugging Face)
+Install extra deps:
+```bash
+pip install datasets huggingface_hub
+```
+Then fetch a small sample and prep JSONs automatically:
+```bash
+datasetqa-fetch-bones --out-dir ./examples/bones_real --max 60
+```
+Review & export:
+```bash
+python -m datasetqa.review --image-dir ./examples/bones_real/broken_bone --type BB --overwrite
+python -m datasetqa.review --image-dir ./examples/bones_real/non_broken --type NB --overwrite
+datasetqa-export --image-dir ./examples/bones_real/broken_bone --type BB --out bones_real_bb.csv
+datasetqa-export --image-dir ./examples/bones_real/non_broken --type NB --out bones_real_nb.csv
+```
+
+
+## Docker quickstart
+Build the image:
+```bash
+docker build -t datasetqa:latest .
+```
+Run a container and open an interactive shell:
+```bash
+docker run --rm -it -p 8888:8888 -v "$PWD":/app datasetqa:latest bash
+```
+(Optional) fetch more data inside the container:
+```bash
+datasetqa-fetch-bones --source mura --out-dir ./examples/bones_real --max 60
+```
+Launch the reviewer:
+```bash
+python -m datasetqa.review --image-dir ./examples/bones_real/broken_bone --type BB --overwrite
+python -m datasetqa.review --image-dir ./examples/bones_real/non_broken --type NB --overwrite
+```
+Export CSVs:
+```bash
+datasetqa-export --image-dir ./examples/bones_real/broken_bone --type BB --out bones_real_bb.csv
+datasetqa-export --image-dir ./examples/bones_real/non_broken --type NB --out bones_real_nb.csv
+```
+
+## Fetcher sources
+The fetcher supports:
+- `--source mura` : MURA MSK X-ray dataset (maps abnormal→broken_bone, normal→non_broken)

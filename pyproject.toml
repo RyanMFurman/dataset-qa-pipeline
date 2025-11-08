@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "datasetqa"
+version = "0.1.0"
+description = "Dataset QA & Export Pipeline: visual review and CSV export for image+JSON detection datasets."
+readme = "README.md"
+requires-python = ">=3.9"
+authors = [{ name="Ryan Furman" }]
+license = {text = "MIT"}
+dependencies = [
+  "opencv-python>=4.8",
+  "matplotlib>=3.7"
+]
+
+[project.urls]
+Homepage = "https://example.com"
+Repository = "https://example.com"
+
+[project.scripts]
+datasetqa-fetch-bones = "datasetqa.fetch_bones:cli"
+datasetqa-makejson = "datasetqa.prepare:cli"
+datasetqa-review = "datasetqa.review:cli"
+datasetqa-export = "datasetqa.export:cli"

@@ -1,0 +1,5 @@
+[console_scripts]
+datasetqa-export = datasetqa.export:cli
+datasetqa-fetch-bones = datasetqa.fetch_bones:cli
+datasetqa-makejson = datasetqa.prepare:cli
+datasetqa-review = datasetqa.review:cli

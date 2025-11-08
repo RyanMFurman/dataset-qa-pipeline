@@ -1,0 +1,16 @@
+{
+  "Body": {
+    "detections": [
+      {
+        "x0": 0,
+        "y0": 0,
+        "x1": 379,
+        "y1": 511,
+        "label": "",
+        "detectionBoxId": 0,
+        "detectionBoxArea": 193669,
+        "detectionBoxDiagonal": 636.2090851284662
+      }
+    ]
+  }
+}
