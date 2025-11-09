@@ -4,6 +4,7 @@ A neutral, open-source toolkit to inspect and QA image detections and export ann
 This version is domain-agnostic but uses broken-bone vs. non-broken X-ray classification as its demonstration case.
 
 Overview
+
 Tool	Purpose
 datasetqa-review	Interactive visual review of image + JSON pairs — add human labels and computed box metrics
 datasetqa-export	Filter reviewed detections and export a clean CSV
@@ -11,15 +12,18 @@ datasetqa-makejson	Auto-generate placeholder JSONs for any folder of images
 datasetqa-fetch-bones	Download real X-ray data (MURA) and prepare JSONs automatically
 
 All names are generic — no proprietary or company-specific terms.
- Quickstart
+
+Quickstart
 pip install -e .
 # Launch interactive review (choose Broken bone / Non-broken / Exclude)
 datasetqa-review --image-dir ./examples/bones_demo --type BB --overwrite
 
 # Export reviewed detections to CSV
+
 datasetqa-export --image-dir ./examples/bones_demo --type BB --out detections.csv
 
 Label Keys
+
 Code	Label	Meaning
 BB	broken_bone	Fractured / abnormal X-ray
 NB	non_broken	Healthy / normal X-ray
@@ -52,15 +56,18 @@ detectionBoxArea → box area (int)
 detectionBoxDiagonal → diagonal length (float)
 
 Example Workflow
+
 Create JSONs for your own images
 datasetqa-makejson --image-dir ./data/broken_bone
 datasetqa-makejson --image-dir ./data/non_broken
 
 Run the reviewer
+
 datasetqa-review --image-dir ./data/broken_bone --type BB --overwrite
 datasetqa-review --image-dir ./data/non_broken --type NB --overwrite
 
 Export to CSV
+
 datasetqa-export --image-dir ./data/broken_bone --type BB --out bones_bb.csv
 datasetqa-export --image-dir ./data/non_broken --type NB --out bones_nb.csv
 
