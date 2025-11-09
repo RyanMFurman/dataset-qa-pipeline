@@ -1,9 +1,9 @@
-🧠 Dataset QA Toolkit — X-ray Image Labeling & Export
+ Dataset QA Toolkit — X-ray Image Labeling & Export
 
 A neutral, open-source toolkit to inspect and QA image detections and export annotations to CSV for downstream analytics or model training.
 This version is domain-agnostic but uses broken-bone vs. non-broken X-ray classification as its demonstration case.
 
-🩻 Overview
+Overview
 Tool	Purpose
 datasetqa-review	Interactive visual review of image + JSON pairs — add human labels and computed box metrics
 datasetqa-export	Filter reviewed detections and export a clean CSV
@@ -11,8 +11,7 @@ datasetqa-makejson	Auto-generate placeholder JSONs for any folder of images
 datasetqa-fetch-bones	Download real X-ray data (MURA) and prepare JSONs automatically
 
 All names are generic — no proprietary or company-specific terms.
-
-⚙️ Quickstart
+ Quickstart
 pip install -e .
 # Launch interactive review (choose Broken bone / Non-broken / Exclude)
 datasetqa-review --image-dir ./examples/bones_demo --type BB --overwrite
@@ -20,7 +19,7 @@ datasetqa-review --image-dir ./examples/bones_demo --type BB --overwrite
 # Export reviewed detections to CSV
 datasetqa-export --image-dir ./examples/bones_demo --type BB --out detections.csv
 
-🏷️ Label Keys
+Label Keys
 Code	Label	Meaning
 BB	broken_bone	Fractured / abnormal X-ray
 NB	non_broken	Healthy / normal X-ray
@@ -52,7 +51,7 @@ detectionBoxArea → box area (int)
 
 detectionBoxDiagonal → diagonal length (float)
 
-🧪 Example Workflow
+Example Workflow
 Create JSONs for your own images
 datasetqa-makejson --image-dir ./data/broken_bone
 datasetqa-makejson --image-dir ./data/non_broken
@@ -65,7 +64,7 @@ Export to CSV
 datasetqa-export --image-dir ./data/broken_bone --type BB --out bones_bb.csv
 datasetqa-export --image-dir ./data/non_broken --type NB --out bones_nb.csv
 
-🧬 Fetch Real X-rays (MURA via Hugging Face)
+ Fetch Real X-rays (MURA via Hugging Face)
 
 Install extras:
 
@@ -84,7 +83,7 @@ python -m datasetqa.review --image-dir ./examples/bones_real/non_broken --type N
 datasetqa-export --image-dir ./examples/bones_real/broken_bone --type BB --out bones_real_bb.csv
 datasetqa-export --image-dir ./examples/bones_real/non_broken --type NB --out bones_real_nb.csv
 
-🐳 Docker Quickstart
+Docker Quickstart
 
 Build and launch inside a container:
 
@@ -98,7 +97,7 @@ datasetqa-fetch-bones --source mura --out-dir ./examples/bones_real --max 60
 python -m datasetqa.review --image-dir ./examples/bones_real/broken_bone --type BB
 python -m datasetqa.export --image-dir ./examples/bones_real/broken_bone --type BB --out bones_real_bb.csv
 
-📓 Jupyter Notebook Demo
+Jupyter Notebook Demo
 
 The included notebook notebooks/bones_baseline.ipynb demonstrates:
 
@@ -118,16 +117,6 @@ Select your .venv Python 3.11 kernel
 
 Click Run All
 
-📁 Project Layout
-dataset-qa-pipeline/
-├─ src/datasetqa/         # core modules
-├─ notebooks/             # analysis notebook
-├─ tests/                 # unit tests
-├─ examples/              # auto-created sample data (optional, git-ignored)
-├─ run_bones_demo.bat     # Windows one-click demo
-└─ README.md
-
-📜 License
 
 MIT License © 2025 Ryan Furman
 Free for research and educational use.
